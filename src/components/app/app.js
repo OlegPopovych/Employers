@@ -14,9 +14,9 @@ class App extends Component {
 		super(props);
 		this.state = {
 			data: [
-				{ name: "Joh2n C.", salary: 800, increase: false, id: 1 },
-				{ name: "Alex3 G.", salary: 3000, increase: true, id: 2 },
-				{ name: "JCarl B.", salary: 5000, increase: false, id: 3 }
+				{ name: "Joh2n C.", salary: 800, id: 1 },
+				{ name: "Alex3 G.", salary: 3000, id: 2 },
+				{ name: "JCarl B.", salary: 5000, id: 3 }
 			]
 		}
 	}
@@ -31,10 +31,36 @@ class App extends Component {
 		})
 	}
 
+	addItem = (name, salary) => {
+		const name1 = name,
+			salary1 = salary;
+
+		if (!this.state.data.find(({ name }) => name === name1) && name1 && salary1) {
+
+			const newElement = {
+				name: name,
+				salary: +salary,
+				id: (this.state.data[this.state.data.length] ? this.state.data[this.state.data.length - 1].id + 1 : 0)
+			}
+
+			this.setState(({ data }) => {
+				return {
+					data: data.concat(newElement)
+				}
+			})
+
+		} else if (!name1 || !salary1) {
+			alert("enter name or salary")
+		} else {
+			alert(`name ${name1} is reserved`);
+			console.log(this.state.data);
+		}
+	}
+
 	render() {
 		return (
 			<div className="app">
-				<AppInfo />,
+				<AppInfo />
 				<div className="search-panel">
 					<SearchPanel />
 					<AppFilter />
@@ -42,7 +68,8 @@ class App extends Component {
 				<EmployersList
 					data={this.state.data}
 					onDelete={this.deleteItem} /*цей пропс передаэться нижчому по рівню елементу!!!*/ />
-				<EmployersAddForm />
+				<EmployersAddForm
+					addItem={this.addItem} />
 			</div>
 		);
 	}
@@ -59,9 +86,41 @@ const index = data.findIndex(elem => elem.id == id);
 const before = data.slice(0, index);
 const after = data.slice(index + 1);
 
-const newArr = [...before, ...after];   
+const newArr = [...before, ...after];
 
 
 return {
 	data: newArr
 }   */
+
+
+
+
+
+
+
+	//  {
+	// 	console.log(name, salary);
+	// 	const newElement = {
+	// 		name: name,
+	// 		salary: +salary,
+	// 		id: this.state.data[this.state.data.length - 1].id + 1
+	// 	}
+	// 	console.log(newElement)
+
+	// 	const nameValidation = this.state.data.find(({ name }) => name === newElement.name);
+
+	// 	if (!nameValidation) {
+	// 		console.log(`перевірене ім'я ${nameValidation}`);
+
+	// 	} else {
+	// 		alert(`name ${newElement.name} is reserved`);
+	// 	}
+
+	// 	this.setState(({ data }) => {
+	// 		return {
+	// 			data: data.concat(newElement)
+	// 		}
+	// 	})
+
+	// }
