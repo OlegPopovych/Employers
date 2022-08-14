@@ -11,7 +11,6 @@ const EmployersList = ({ data, onDelete }) => {
 				key={item.id}
 				name={item.name}
 				salary={item.salary}
-				increase={item.increase}
 				onDelete={() => onDelete(item.id)} //цей пропс передаэться нижчому по рівню елементу!!!
 			/>
 		)

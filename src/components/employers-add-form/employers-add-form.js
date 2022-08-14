@@ -16,13 +16,20 @@ class EmployersAddForm extends Component {
 		}) // 1. витягує значення атрибута, нейм чи саларі, які співпадаються з назвами в стейті!!
 	}
 
+	onSubmit = (e) => {
+		e.preventDefault();
+	}
+
 	render() {
+		const { addItem } = this.props;
 		const { name, salary } = this.state;
 
 		return (
 			<div className="app-add-form">
 				<h3>Добавьте нового сотрудника</h3>
 				<form
+					onSubmit={this.onSubmit}
+
 					className="add-form d-flex">
 					<input type="text"
 						className="form-control new-post-label"
@@ -41,6 +48,7 @@ class EmployersAddForm extends Component {
 						onChange={this.onValueChange} />
 
 					<button type="submit"
+						onClick={() => addItem(this.state.name, this.state.salary)}
 						className="btn btn-outline-light">Додати</button>
 				</form>
 			</div>

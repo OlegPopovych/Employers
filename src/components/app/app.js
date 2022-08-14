@@ -14,11 +14,12 @@ class App extends Component {
 		super(props);
 		this.state = {
 			data: [
-				{ name: "Joh2n C.", salary: 800, increase: false, id: 1 },
-				{ name: "Alex3 G.", salary: 3000, increase: true, id: 2 },
-				{ name: "JCarl B.", salary: 5000, increase: false, id: 3 }
+				{ name: "Joh2n C.", salary: 800, id: 1 },
+				{ name: "Alex3 G.", salary: 3000, id: 2 },
+				{ name: "JCarl B.", salary: 5000, id: 3 }
 			]
 		}
+		//this.maxId = 0
 	}
 
 	deleteItem = (id) => {
@@ -31,6 +32,22 @@ class App extends Component {
 		})
 	}
 
+	addItem = (name, salary) => {
+		console.log(name, salary);
+		const newElement = {
+			name: name,
+			salary: +salary,
+			id: this.state.data[this.state.data.length - 1].id + 1
+		}
+		console.log(newElement)
+		this.setState(({ data }) => {
+			return {
+				data: data.concat(newElement)
+			}
+		})
+	}
+
+
 	render() {
 		return (
 			<div className="app">
@@ -42,7 +59,8 @@ class App extends Component {
 				<EmployersList
 					data={this.state.data}
 					onDelete={this.deleteItem} /*цей пропс передаэться нижчому по рівню елементу!!!*/ />
-				<EmployersAddForm />
+				<EmployersAddForm
+					addItem={this.addItem} />
 			</div>
 		);
 	}
