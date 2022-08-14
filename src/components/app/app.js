@@ -19,6 +19,7 @@ class App extends Component {
 				{ name: "JCarl B.", salary: 5000, id: 3 }
 			]
 		}
+		//this.maxId = 0
 	}
 
 	deleteItem = (id) => {
@@ -77,9 +78,6 @@ class App extends Component {
 
 
 export default App;
-
-
-
 
 /*//спосіб №1 видалити з масиву елемент по його індексу
 const index = data.findIndex(elem => elem.id == id);
