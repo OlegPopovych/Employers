@@ -4,14 +4,15 @@ import EmployersListItem from '../employers-list-item/employers-list-item';
 
 import './employers-list.css';
 
-const EmployersList = ({ data, onDelete }) => {
+const EmployersList = ({ data, onDelete, onToggleProp }) => {
 	const elements = data.map(item => {
+		const { id, ...itemProps } = item;
 		return (
 			<EmployersListItem
 				key={item.id}
-				name={item.name}
-				salary={item.salary}
-				onDelete={() => onDelete(item.id)} //цей пропс передаэться нижчому по рівню елементу!!!
+				{...itemProps}
+				onDelete={() => onDelete(id)} //цей пропс передаэться нижчому по рівню елементу!!!
+				onToggleProp={(e) => onToggleProp(id, e.currentTarget.getAttribute('data-prop'))}
 			/>
 		)
 	});
