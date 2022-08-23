@@ -17,7 +17,9 @@ class App extends Component {
 				{ name: "Joh2n C.", salary: 800, increase: false, rise: true, id: 1 },
 				{ name: "Alex3 G.", salary: 3000, increase: true, rise: false, id: 2 },
 				{ name: "JCarl B.", salary: 5000, increase: false, rise: false, id: 3 }
-			]
+			],
+			term: '',
+			filter: '',
 		}
 	}
 
@@ -69,20 +71,56 @@ class App extends Component {
 		}))
 	}
 
+	searchEmp = (items, term,) => {  // формуємо дані для рендеру з фільтром чи без
+		if (term.length === 0) {
+			return items
+		}
+		return items.filter(item => {
+			return item.name.indexOf(term) > -1 // if item.name === term return -1, alse return item
+		})
+	}
+
+	onUpdateSearch = (term) => {
+		this.setState({ term })
+	}
+
+	filterToggle = (criterium) => {
+		this.setState({
+			filter: criterium
+		})
+	}
+
+	filterCase = (items, filter) => {
+		switch (filter) {
+			case "toRiseEmployees":
+				return items.filter(item => item.rise);
+			case "salaryOverThousand":
+				return items.filter(item => item.salary > 1000);
+			default:
+				return items;
+		}
+	}
+
 	render() {
+		const { data, term, filter } = this.state;
+		const visibleData = this.filterCase(this.searchEmp(data, term), filter);
+
 		const increseCount = this.state.data.filter(item => item.increase !== false).length;
 		const employeesCount = this.state.data.length;
+
 		return (
 			<div className="app">
 				<AppInfo
 					employeesCount={employeesCount}
 					increseCount={increseCount} />
 				<div className="search-panel">
-					<SearchPanel />
-					<AppFilter />
+					<SearchPanel
+						onUpdateSearch={this.onUpdateSearch} />
+					<AppFilter
+						filterToggle={this.filterToggle} />
 				</div>
 				<EmployersList
-					data={this.state.data}
+					data={visibleData}
 					onDelete={this.deleteItem} /*цей пропс передаэться нижчому по рівню елементу!!!*/
 					onToggleProp={this.onToggleProp}
 				/>
@@ -154,28 +192,52 @@ return {
 
 
 
-	//  {
-	// 	console.log(name, salary);
-	// 	const newElement = {
-	// 		name: name,
-	// 		salary: +salary,
-	// 		id: this.state.data[this.state.data.length - 1].id + 1
-	// 	}
-	// 	console.log(newElement)
+//  {
+// 	console.log(name, salary);
+// 	const newElement = {
+// 		name: name,
+// 		salary: +salary,
+// 		id: this.state.data[this.state.data.length - 1].id + 1
+// 	}
+// 	console.log(newElement)
 
-	// 	const nameValidation = this.state.data.find(({ name }) => name === newElement.name);
+// 	const nameValidation = this.state.data.find(({ name }) => name === newElement.name);
 
-	// 	if (!nameValidation) {
-	// 		console.log(`перевірене ім'я ${nameValidation}`);
+// 	if (!nameValidation) {
+// 		console.log(`перевірене ім'я ${nameValidation}`);
 
-	// 	} else {
-	// 		alert(`name ${newElement.name} is reserved`);
-	// 	}
+// 	} else {
+// 		alert(`name ${newElement.name} is reserved`);
+// 	}
 
-	// 	this.setState(({ data }) => {
-	// 		return {
-	// 			data: data.concat(newElement)
-	// 		}
-	// 	})
+// 	this.setState(({ data }) => {
+// 		return {
+// 			data: data.concat(newElement)
+// 		}
+// 	})
 
-	// }
+// }
+
+
+
+
+
+
+
+
+
+
+// const	state1 = [
+// 		{ name: "Joh2n C.", salary: 800, increase: false, rise: true, id: 1 },
+// 		{ name: "Alex3 G.", salary: 3000, increase: true, rise: false, id: 2 },
+// 		{ name: "JCarl B.", salary: 5000, increase: false, rise: false, id: 3 }
+// 	]
+
+
+// const filteState1 = state1.filter(item => {
+// 	if (item.rise !== false) {
+// 		return true;
+// 	}
+// });
+
+// console.log(filteState1);
